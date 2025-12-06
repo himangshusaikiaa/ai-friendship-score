@@ -24,10 +24,24 @@ app.add_middleware(
 
 # --------- Helpers: chat parsing ----------
 
+# Supports:
+#  - 12/06/2025, 22:14 - Name: Message
+#  - 12/06/25, 10:14 pm - Name: Message
+#  - 12-06-2025, 22:14 – Name: Message
+#  - 12.06.2025, 22:14 - Name: Message
 WHATSAPP_LINE_RE = re.compile(
-    r"^(\d{1,2}/\d{1,2}/\d{2,4}),\s+(\d{1,2}:\d{2})"
-    r"(?:\s?(AM|PM))?\s+-\s+([^:]+):\s+(.*)$"
+    r"""^
+    (\d{1,2}[\/\-.]\d{1,2}[\/\-.]\d{2,4})   # date: 12/06/2025 or 12-06-25
+    ,?\s+                                   # optional comma + space
+    (\d{1,2}:\d{2}(?::\d{2})?)              # time: 22:14 or 22:14:05
+    \s*(AM|PM|am|pm)?\s*                    # optional am/pm
+    [\-\u2013\u2014]\s+                     # dash variants (-, –, —)
+    ([^:]+):\s+                             # name up to colon
+    (.*)$                                   # message
+    """,
+    re.VERBOSE,
 )
+
 
 SYSTEM_PATTERNS = [
     "Messages and calls are end-to-end encrypted",
@@ -45,12 +59,6 @@ def is_system_message(text: str) -> bool:
 
 
 def parse_whatsapp_chat(text: str) -> List[Dict[str, Any]]:
-    """
-    Parse WhatsApp .txt export into structured messages.
-    Handles multi-line messages.
-    Returns list of dicts:
-      {timestamp: datetime, sender: str, message: str}
-    """
     messages = []
     current = None
 
@@ -61,27 +69,50 @@ def parse_whatsapp_chat(text: str) -> List[Dict[str, Any]]:
 
         m = WHATSAPP_LINE_RE.match(line)
         if m:
-            # Save previous message
-            if current:
-                if not is_system_message(current["message"]):
-                    messages.append(current)
-            date_str, time_str, ampm, sender, msg = m.groups()
-            # Parse timestamp (day/month may depend on locale; assuming DD/MM)
-            ts_format = "%d/%m/%Y, %H:%M"
-            if ampm:
-                ts_format = "%d/%m/%Y, %I:%M %p"
-                dt_str = f"{date_str}, {time_str} {ampm}"
-            else:
-                dt_str = f"{date_str}, {time_str}"
+            # Save previous message if exists
+            if current and not is_system_message(current["message"]):
+                messages.append(current)
 
-            try:
-                ts = datetime.strptime(dt_str, ts_format)
-            except Exception:
-                # fallback, just keep string
-                ts = None
+            date_str, time_str, ampm, sender, msg = m.groups()
+
+            # Normalize am/pm
+            ampm_norm = ampm.upper() if ampm else None
+
+            # Try to normalize timestamp
+            dt = None
+            # Try a few formats:
+            formats = []
+            if ampm_norm:
+                # 12h formats
+                formats = [
+                    "%d/%m/%Y %I:%M %p",
+                    "%d-%m-%Y %I:%M %p",
+                    "%d.%m.%Y %I:%M %p",
+                    "%d/%m/%y %I:%M %p",
+                    "%d-%m-%y %I:%M %p",
+                    "%d.%m.%y %I:%M %p",
+                ]
+            else:
+                # 24h formats
+                formats = [
+                    "%d/%m/%Y %H:%M",
+                    "%d-%m-%Y %H:%M",
+                    "%d.%m.%Y %H:%M",
+                    "%d/%m/%y %H:%M",
+                    "%d-%m-%y %H:%M",
+                    "%d.%m/%y %H:%M",
+                ]
+
+            dt_str_base = f"{date_str} {time_str}"
+            for fmt in formats:
+                try:
+                    dt = datetime.strptime(dt_str_base + (f" {ampm_norm}" if ampm_norm else ""), fmt)
+                    break
+                except Exception:
+                    continue
 
             current = {
-                "timestamp": ts,
+                "timestamp": dt,
                 "sender": sender.strip(),
                 "message": msg.strip(),
             }
@@ -90,11 +121,12 @@ def parse_whatsapp_chat(text: str) -> List[Dict[str, Any]]:
             if current:
                 current["message"] += "\n" + line
 
-    # Final one
+    # Final message
     if current and not is_system_message(current["message"]):
         messages.append(current)
 
     return messages
+
 
 
 # --------- Metrics helpers ----------
