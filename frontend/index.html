@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>AI Friendship Compatibility Score</title>
@@ -36,8 +37,8 @@
       max-width: 1100px;
       width: 100%;
       background: radial-gradient(circle at top left, rgba(168, 85, 255, 0.25), transparent 55%),
-                  radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.25), transparent 55%),
-                  rgba(5, 5, 16, 0.98);
+        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.25), transparent 55%),
+        rgba(5, 5, 16, 0.98);
       border-radius: 32px;
       padding: 28px 24px 24px;
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
@@ -158,9 +159,17 @@
     }
 
     @keyframes shine {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     .btn-row {
@@ -217,11 +226,9 @@
       height: 180px;
       border-radius: 50%;
       background:
-        conic-gradient(
-          from 180deg,
+        conic-gradient(from 180deg,
           var(--accent-pink) var(--gauge-deg, 0deg),
-          rgba(30, 41, 59, 0.5) var(--gauge-deg, 0deg)
-        );
+          rgba(30, 41, 59, 0.5) var(--gauge-deg, 0deg));
       display: flex;
       align-items: center;
       justify-content: center;
@@ -363,445 +370,449 @@
     }
   </style>
 </head>
+
 <body>
-<div class="app">
-  <div class="header">
-    <div class="title-block">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <h1>AI Friendship Compatibility Score</h1>
-        <span class="title-pill">Gen-Z edition 💅</span>
+
+  <div class="app">
+    <div class="header">
+      <div class="title-block">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <h1>AI Friendship Compatibility Score</h1>
+          <span class="title-pill">Gen-Z edition 💅</span>
+        </div>
+        <p class="subtitle">Drop your WhatsApp chat & get a 0–100 bestie score, vibes & aesthetic share card.</p>
       </div>
-      <p class="subtitle">Drop your WhatsApp chat & get a 0–100 bestie score, vibes & aesthetic share card.</p>
+      <div class="privacy">
+        Your chats stay on your device. We don’t store any conversation data.
+      </div>
     </div>
-    <div class="privacy">
-      Your chats stay on your device. We don’t store any conversation data.
+
+    <div style="
+    text-align:center; 
+    margin-top:40px;
+    margin-bottom: 40px;
+    color:#a855ff; 
+    font-size:0.85rem;
+">
+      © 2025 Built with 💖 by <b>Himangshu Saikia</b> · All rights reserved.
     </div>
-  </div>
 
-  <div class="layout">
-    <!-- Left: Upload + score -->
-    <div class="card">
-      <h2>1. Upload chat & analyze</h2>
-      <small>Export a WhatsApp chat as “.txt” (without media) and drop it here.</small>
+    <div class="layout">
+      <!-- Left: Upload + score -->
+      <div class="card">
+        <h2>1. Upload chat & analyze</h2>
+        <small>Export a WhatsApp chat as “.txt” (without media) and drop it here.</small>
 
-      <div class="upload-box" id="uploadBox">
-        <div class="upload-label-main">Drag & drop chat.txt here</div>
-        <div class="upload-hint">or</div>
-        <button class="upload-btn" id="browseBtn">Choose file</button>
-        <input type="file" id="fileInput" accept=".txt" style="display:none;">
-        <div class="upload-hint" id="fileName">No file selected</div>
-      </div>
+        <div class="upload-box" id="uploadBox">
+          <div class="upload-label-main">Drag & drop chat.txt here</div>
+          <div class="upload-hint">or</div>
+          <button class="upload-btn" id="browseBtn">Choose file</button>
+          <input type="file" id="fileInput" accept=".txt" style="display:none;">
+          <div class="upload-hint" id="fileName">No file selected</div>
+        </div>
 
-      <div class="btn-row">
-        <button class="secondary-btn" id="clearBtn">Clear</button>
-        <button class="primary-btn" id="analyzeBtn" disabled>Analyze Chat</button>
-      </div>
+        <div class="btn-row">
+          <button class="secondary-btn" id="clearBtn">Clear</button>
+          <button class="primary-btn" id="analyzeBtn" disabled>Analyze Chat</button>
+        </div>
 
-      <div class="status-text" id="statusText"></div>
+        <div class="status-text" id="statusText"></div>
 
-      <div class="gauge-wrapper">
-        <div class="gauge" id="gauge">
-          <div class="gauge-inner">
-            <div class="gauge-score" id="scoreValue">--</div>
-            <div class="gauge-label">Friendship Score</div>
+        <div class="gauge-wrapper">
+          <div class="gauge" id="gauge">
+            <div class="gauge-inner">
+              <div class="gauge-score" id="scoreValue">--</div>
+              <div class="gauge-label">Friendship Score</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pill-row">
+          <span class="pill" id="tagline">Upload a chat to unlock the tea ☕</span>
+        </div>
+
+        <div class="mini-grid">
+          <div class="metric-card">
+            <div class="metric-label">Communication Balance</div>
+            <div class="metric-value" id="balanceVal">--%</div>
+            <div class="metric-sub" id="balanceHint"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Fun Factor</div>
+            <div class="metric-value" id="funVal">--%</div>
+            <div class="metric-sub" id="funHint"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Positivity</div>
+            <div class="metric-value" id="posVal">--%</div>
+            <div class="metric-sub" id="posHint"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Depth</div>
+            <div class="metric-value" id="depthVal">--%</div>
+            <div class="metric-sub" id="depthHint"></div>
           </div>
         </div>
       </div>
 
-      <div class="pill-row">
-        <span class="pill" id="tagline">Upload a chat to unlock the tea ☕</span>
-      </div>
+      <!-- Right: per-person metrics + insights + share card -->
+      <div class="card">
+        <h2>2. Bestie stats, vibes & share card</h2>
 
-      <div class="mini-grid">
-        <div class="metric-card">
-          <div class="metric-label">Communication Balance</div>
-          <div class="metric-value" id="balanceVal">--%</div>
-          <div class="metric-sub" id="balanceHint"></div>
+        <div class="name-row">
+          <div class="name-chip" id="nameA">Person A: --</div>
+          <div class="name-chip" id="nameB">Person B: --</div>
         </div>
-        <div class="metric-card">
-          <div class="metric-label">Fun Factor</div>
-          <div class="metric-value" id="funVal">--%</div>
-          <div class="metric-sub" id="funHint"></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Positivity</div>
-          <div class="metric-value" id="posVal">--%</div>
-          <div class="metric-sub" id="posHint"></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Depth</div>
-          <div class="metric-value" id="depthVal">--%</div>
-          <div class="metric-sub" id="depthHint"></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Right: per-person metrics + insights + share card -->
-    <div class="card">
-      <h2>2. Bestie stats, vibes & share card</h2>
-
-      <div class="name-row">
-        <div class="name-chip" id="nameA">Person A: --</div>
-        <div class="name-chip" id="nameB">Person B: --</div>
-      </div>
-
-      <div class="mini-grid" style="margin-bottom:10px;">
-        <div class="metric-card">
-          <div class="metric-label">Messages sent</div>
-          <div class="metric-value" id="msgCountVal">--</div>
-          <div class="metric-sub" id="msgHint"></div>
+        <div class="mini-grid" style="margin-bottom:10px;">
+          <div class="metric-card">
+            <div class="metric-label">Messages sent</div>
+            <div class="metric-value" id="msgCountVal">--</div>
+            <div class="metric-sub" id="msgHint"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Avg reply time</div>
+            <div class="metric-value" id="replyVal">--</div>
+            <div class="metric-sub" id="replyHint"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Emoji + laugh density</div>
+            <div class="metric-value" id="emojiVal">--</div>
+            <div class="metric-sub" id="emojiHint"></div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Late-night energy</div>
+            <div class="metric-value" id="lateVal">--</div>
+            <div class="metric-sub" id="lateHint"></div>
+          </div>
         </div>
-        <div class="metric-card">
-          <div class="metric-label">Avg reply time</div>
-          <div class="metric-value" id="replyVal">--</div>
-          <div class="metric-sub" id="replyHint"></div>
+
+        <div class="special">
+          <div><span>Most emotional moment:</span> <span id="emotionalMoment">--</span></div>
+          <div style="margin-top:4px;"><span>Most funny message:</span> <span id="funnyMoment">--</span></div>
         </div>
-        <div class="metric-card">
-          <div class="metric-label">Emoji + laugh density</div>
-          <div class="metric-value" id="emojiVal">--</div>
-          <div class="metric-sub" id="emojiHint"></div>
+
+        <div class="insights-list" id="insightsList">
+          <!-- dynamic -->
         </div>
-        <div class="metric-card">
-          <div class="metric-label">Late-night energy</div>
-          <div class="metric-value" id="lateVal">--</div>
-          <div class="metric-sub" id="lateHint"></div>
+
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="primary-btn" id="generateCardBtn" disabled>Generate Share Card</button>
         </div>
-      </div>
 
-      <div class="special">
-        <div><span>Most emotional moment:</span> <span id="emotionalMoment">--</span></div>
-        <div style="margin-top:4px;"><span>Most funny message:</span> <span id="funnyMoment">--</span></div>
-      </div>
-
-      <div class="insights-list" id="insightsList">
-        <!-- dynamic -->
-      </div>
-
-      <div class="btn-row" style="margin-top:12px;">
-        <button class="primary-btn" id="generateCardBtn" disabled>Generate Share Card</button>
-      </div>
-
-      <div class="card-preview" id="cardPreview" style="display:none;">
-        <img id="cardImg" alt="Friendship share card">
-        <button class="secondary-btn" id="downloadCardBtn" style="margin-top:6px;">Download PNG</button>
-        <small>Size 1080×1350 – perfect for IG stories & posts. “Tag your bestie” mandatory 😌</small>
+        <div class="card-preview" id="cardPreview" style="display:none;">
+          <img id="cardImg" alt="Friendship share card">
+          <button class="secondary-btn" id="downloadCardBtn" style="margin-top:6px;">Download PNG</button>
+          <small>Size 1080×1350 – perfect for IG stories & posts. “Tag your bestie” mandatory 😌</small>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div style="
-    text-align:center; 
-    margin-top:40px; 
-    color:#a855ff; 
-    font-size:0.85rem;
-    text-shadow:0 0 8px #a855ff;
-">
-    © 2025 Built with 💖 by <b>Himangshu Saikia</b> · All rights reserved.
-</div>
 
-<script>
-  const API_BASE = "https://ai-friendship-score-production.up.railway.app";
+  <script>
+    const API_BASE = "https://ai-friendship-score-production.up.railway.app";
 
-  const fileInput = document.getElementById("fileInput");
-  const browseBtn = document.getElementById("browseBtn");
-  const uploadBox = document.getElementById("uploadBox");
-  const fileNameEl = document.getElementById("fileName");
-  const analyzeBtn = document.getElementById("analyzeBtn");
-  const clearBtn = document.getElementById("clearBtn");
-  const statusText = document.getElementById("statusText");
+    const fileInput = document.getElementById("fileInput");
+    const browseBtn = document.getElementById("browseBtn");
+    const uploadBox = document.getElementById("uploadBox");
+    const fileNameEl = document.getElementById("fileName");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const statusText = document.getElementById("statusText");
 
-  const gauge = document.getElementById("gauge");
-  const scoreValue = document.getElementById("scoreValue");
-  const tagline = document.getElementById("tagline");
+    const gauge = document.getElementById("gauge");
+    const scoreValue = document.getElementById("scoreValue");
+    const tagline = document.getElementById("tagline");
 
-  const balanceVal = document.getElementById("balanceVal");
-  const funVal = document.getElementById("funVal");
-  const posVal = document.getElementById("posVal");
-  const depthVal = document.getElementById("depthVal");
+    const balanceVal = document.getElementById("balanceVal");
+    const funVal = document.getElementById("funVal");
+    const posVal = document.getElementById("posVal");
+    const depthVal = document.getElementById("depthVal");
 
-  const balanceHint = document.getElementById("balanceHint");
-  const funHint = document.getElementById("funHint");
-  const posHint = document.getElementById("posHint");
-  const depthHint = document.getElementById("depthHint");
+    const balanceHint = document.getElementById("balanceHint");
+    const funHint = document.getElementById("funHint");
+    const posHint = document.getElementById("posHint");
+    const depthHint = document.getElementById("depthHint");
 
-  const nameA = document.getElementById("nameA");
-  const nameB = document.getElementById("nameB");
-  const msgCountVal = document.getElementById("msgCountVal");
-  const msgHint = document.getElementById("msgHint");
-  const replyVal = document.getElementById("replyVal");
-  const replyHint = document.getElementById("replyHint");
-  const emojiVal = document.getElementById("emojiVal");
-  const emojiHint = document.getElementById("emojiHint");
-  const lateVal = document.getElementById("lateVal");
-  const lateHint = document.getElementById("lateHint");
-  const emotionalMoment = document.getElementById("emotionalMoment");
-  const funnyMoment = document.getElementById("funnyMoment");
-  const insightsList = document.getElementById("insightsList");
+    const nameA = document.getElementById("nameA");
+    const nameB = document.getElementById("nameB");
+    const msgCountVal = document.getElementById("msgCountVal");
+    const msgHint = document.getElementById("msgHint");
+    const replyVal = document.getElementById("replyVal");
+    const replyHint = document.getElementById("replyHint");
+    const emojiVal = document.getElementById("emojiVal");
+    const emojiHint = document.getElementById("emojiHint");
+    const lateVal = document.getElementById("lateVal");
+    const lateHint = document.getElementById("lateHint");
+    const emotionalMoment = document.getElementById("emotionalMoment");
+    const funnyMoment = document.getElementById("funnyMoment");
+    const insightsList = document.getElementById("insightsList");
 
-  const generateCardBtn = document.getElementById("generateCardBtn");
-  const cardPreview = document.getElementById("cardPreview");
-  const cardImg = document.getElementById("cardImg");
-  const downloadCardBtn = document.getElementById("downloadCardBtn");
+    const generateCardBtn = document.getElementById("generateCardBtn");
+    const cardPreview = document.getElementById("cardPreview");
+    const cardImg = document.getElementById("cardImg");
+    const downloadCardBtn = document.getElementById("downloadCardBtn");
 
-  let lastMetrics = null;
+    let lastMetrics = null;
 
-  function resetUI() {
-    statusText.textContent = "";
-    scoreValue.textContent = "--";
-    gauge.style.setProperty("--gauge-deg", "0deg");
-    tagline.textContent = "Upload a chat to unlock the tea ☕";
+    function resetUI() {
+      statusText.textContent = "";
+      scoreValue.textContent = "--";
+      gauge.style.setProperty("--gauge-deg", "0deg");
+      tagline.textContent = "Upload a chat to unlock the tea ☕";
 
-    balanceVal.textContent = "--%";
-    funVal.textContent = "--%";
-    posVal.textContent = "--%";
-    depthVal.textContent = "--%";
+      balanceVal.textContent = "--%";
+      funVal.textContent = "--%";
+      posVal.textContent = "--%";
+      depthVal.textContent = "--%";
 
-    balanceHint.textContent = "";
-    funHint.textContent = "";
-    posHint.textContent = "";
-    depthHint.textContent = "";
+      balanceHint.textContent = "";
+      funHint.textContent = "";
+      posHint.textContent = "";
+      depthHint.textContent = "";
 
-    nameA.textContent = "Person A: --";
-    nameB.textContent = "Person B: --";
-    msgCountVal.textContent = "--";
-    msgHint.textContent = "";
-    replyVal.textContent = "--";
-    replyHint.textContent = "";
-    emojiVal.textContent = "--";
-    emojiHint.textContent = "";
-    lateVal.textContent = "--";
-    lateHint.textContent = "";
-    emotionalMoment.textContent = "--";
-    funnyMoment.textContent = "--";
-    insightsList.innerHTML = "";
+      nameA.textContent = "Person A: --";
+      nameB.textContent = "Person B: --";
+      msgCountVal.textContent = "--";
+      msgHint.textContent = "";
+      replyVal.textContent = "--";
+      replyHint.textContent = "";
+      emojiVal.textContent = "--";
+      emojiHint.textContent = "";
+      lateVal.textContent = "--";
+      lateHint.textContent = "";
+      emotionalMoment.textContent = "--";
+      funnyMoment.textContent = "--";
+      insightsList.innerHTML = "";
 
-    generateCardBtn.disabled = true;
-    cardPreview.style.display = "none";
-    lastMetrics = null;
-  }
+      generateCardBtn.disabled = true;
+      cardPreview.style.display = "none";
+      lastMetrics = null;
+    }
 
-  resetUI();
+    resetUI();
 
-  browseBtn.addEventListener("click", () => fileInput.click());
+    browseBtn.addEventListener("click", () => fileInput.click());
 
-  fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
-    if (file) {
-      fileNameEl.textContent = file.name;
-      analyzeBtn.disabled = false;
-    } else {
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (file) {
+        fileNameEl.textContent = file.name;
+        analyzeBtn.disabled = false;
+      } else {
+        fileNameEl.textContent = "No file selected";
+        analyzeBtn.disabled = true;
+      }
+    });
+
+    // Drag and drop
+    ["dragenter", "dragover"].forEach(evt => {
+      uploadBox.addEventListener(evt, e => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadBox.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(evt => {
+      uploadBox.addEventListener(evt, e => {
+        e.preventDefault();
+        e.stopPropagation();
+        uploadBox.classList.remove("dragover");
+      });
+    });
+
+    uploadBox.addEventListener("drop", e => {
+      const file = e.dataTransfer.files[0];
+      if (file && file.name.endsWith(".txt")) {
+        fileInput.files = e.dataTransfer.files;
+        fileNameEl.textContent = file.name;
+        analyzeBtn.disabled = false;
+      } else {
+        statusText.textContent = "Please drop a .txt file exported from WhatsApp.";
+      }
+    });
+
+    clearBtn.addEventListener("click", () => {
+      fileInput.value = "";
       fileNameEl.textContent = "No file selected";
       analyzeBtn.disabled = true;
-    }
-  });
-
-  // Drag and drop
-  ["dragenter", "dragover"].forEach(evt => {
-    uploadBox.addEventListener(evt, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      uploadBox.classList.add("dragover");
+      resetUI();
     });
-  });
 
-  ["dragleave", "drop"].forEach(evt => {
-    uploadBox.addEventListener(evt, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      uploadBox.classList.remove("dragover");
-    });
-  });
-
-  uploadBox.addEventListener("drop", e => {
-    const file = e.dataTransfer.files[0];
-    if (file && file.name.endsWith(".txt")) {
-      fileInput.files = e.dataTransfer.files;
-      fileNameEl.textContent = file.name;
-      analyzeBtn.disabled = false;
-    } else {
-      statusText.textContent = "Please drop a .txt file exported from WhatsApp.";
-    }
-  });
-
-  clearBtn.addEventListener("click", () => {
-    fileInput.value = "";
-    fileNameEl.textContent = "No file selected";
-    analyzeBtn.disabled = true;
-    resetUI();
-  });
-
-  analyzeBtn.addEventListener("click", async () => {
-    const file = fileInput.files[0];
-    if (!file) {
-      statusText.textContent = "Please select a chat.txt file first.";
-      return;
-    }
-
-    statusText.textContent = "Analyzing chat… this might take a sec 👀";
-    analyzeBtn.disabled = true;
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const res = await fetch(API_BASE + "/analyze_chat", {
-        method: "POST",
-        body: formData
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        statusText.textContent = data.error || "Something went wrong.";
-        analyzeBtn.disabled = false;
+    analyzeBtn.addEventListener("click", async () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        statusText.textContent = "Please select a chat.txt file first.";
         return;
       }
-      lastMetrics = data;
-      statusText.textContent = "Bestie stats unlocked ✅";
-      renderResults(data);
-      generateCardBtn.disabled = false;
-    } catch (err) {
-      console.error(err);
-      statusText.textContent = "Error connecting to server.";
-    } finally {
-      analyzeBtn.disabled = false;
-    }
-  });
 
-  function renderResults(data) {
-    const persons = data.persons;
-    const scores = data.scores;
-    const raw = data.raw_metrics;
+      statusText.textContent = "Analyzing chat… this might take a sec 👀";
+      analyzeBtn.disabled = true;
 
-    // Gauge
-    const overall = scores.overall || 0;
-    scoreValue.textContent = overall.toFixed(0);
-    const deg = (overall / 100) * 360;
-    gauge.style.setProperty("--gauge-deg", deg + "deg");
+      const formData = new FormData();
+      formData.append("file", file);
 
-    // Tagline
-    if (overall >= 90) {
-      tagline.textContent = "Friendship Score: " + overall.toFixed(0) + "% 🔥 We’re literally soul-mates.";
-    } else if (overall >= 75) {
-      tagline.textContent = "Elite bestie vibes detected. Protect this connection 💖";
-    } else if (overall >= 60) {
-      tagline.textContent = "Solid friendship—few more midnight rants and you’re S-tier.";
-    } else {
-      tagline.textContent = "Room to level up… send memes and trauma dump responsibly 😌";
-    }
-
-    // Mini top metrics
-    balanceVal.textContent = scores.communication_balance.toFixed(0) + "%";
-    funVal.textContent = scores.fun_factor.toFixed(0) + "%";
-    posVal.textContent = scores.emotional_positivity.toFixed(0) + "%";
-    depthVal.textContent = scores.depth.toFixed(0) + "%";
-
-    balanceHint.textContent = raw.balance_score > 0.8 ? "Beautifully balanced convo energy." : "One of you chats more 👀";
-    funHint.textContent = raw.fun_score > 0.7 ? "This chat is pure chaos and laughter 😂" : "Could use a few more memes tbh.";
-    posHint.textContent = raw.positivity_score > 0.6 ? "Mostly positive vibes, love that for you." : "Some spicy moments, but it’s fine.";
-    depthHint.textContent = raw.depth_score > 0.6 ? "Deep convos + late-night oversharing unlocked." : "More core-memory chats needed.";
-
-    // Names
-    nameA.textContent = "Person A: " + persons.a;
-    nameB.textContent = "Person B: " + persons.b;
-
-    // Messages & reply
-    const counts = raw.message_count || {};
-    const totalMsg = raw.total_messages || (counts[persons.a] || 0) + (counts[persons.b] || 0);
-    msgCountVal.textContent = totalMsg;
-    const whoMore = raw.who_texts_more;
-    if (whoMore === persons.a) {
-      msgHint.textContent = persons.a + " carries more of the conversation.";
-    } else if (whoMore === persons.b) {
-      msgHint.textContent = persons.b + " carries more of the conversation.";
-    } else {
-      msgHint.textContent = "Texting load is pretty balanced.";
-    }
-
-    const avgReply = raw.avg_reply_seconds || {};
-    const arA = (avgReply[persons.a] || 0) / 60;
-    const arB = (avgReply[persons.b] || 0) / 60;
-    const faster = raw.fastest_replier;
-    replyVal.textContent = (arA && arB) ? (Math.min(arA, arB)).toFixed(1) + " min" : "--";
-    if (faster) {
-      replyHint.textContent = faster + " replies faster, not even giving you time to overthink 😭";
-    } else {
-      replyHint.textContent = "Reply times are kind of chaotic but it works somehow.";
-    }
-
-    // Emoji & laughs
-    emojiVal.textContent = raw.emoji_count + " + " + raw.laugh_count;
-    emojiHint.textContent = "Emoji density: " + raw.emoji_density.toFixed(2) + " / msg, laughs: " + raw.laugh_density.toFixed(2) + " / msg";
-
-    // Late night
-    const lateRatio = raw.late_night_ratio || 0;
-    lateVal.textContent = (lateRatio * 100).toFixed(0) + "%";
-    lateHint.textContent = lateRatio > 0.3 ? "Your midnight convo energy is unmatched 🌙" : "More 2am oversharing could be iconic.";
-
-    // Special moments
-    emotionalMoment.textContent = data.special_moments.most_emotional || "--";
-    funnyMoment.textContent = data.special_moments.most_funny || "--";
-
-    // Insights
-    insightsList.innerHTML = "";
-    (data.insights || []).forEach(text => {
-      const li = document.createElement("div");
-      li.className = "insight-item";
-      li.textContent = text;
-      insightsList.appendChild(li);
-    });
-  }
-
-  generateCardBtn.addEventListener("click", async () => {
-    if (!lastMetrics) return;
-
-    const raw = lastMetrics.raw_metrics;
-    const scores = lastMetrics.scores;
-    const persons = lastMetrics.persons;
-
-    statusText.textContent = "Cooking up your aesthetic share card 🔮";
-    generateCardBtn.disabled = true;
-
-    const payload = {
-      person_a: persons.a,
-      person_b: persons.b,
-      overall_score: (scores.overall || 0) / 100,
-      balance_score: (scores.communication_balance || 0) / 100,
-      fun_score: (scores.fun_factor || 0) / 100,
-      positivity_score: (scores.emotional_positivity || 0) / 100,
-      depth_score: (scores.depth || 0) / 100
-    };
-
-    try {
-      const res = await fetch(API_BASE + "/generate_card", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        statusText.textContent = data.error || "Failed to generate card.";
+      try {
+        const res = await fetch(API_BASE + "/analyze_chat", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          statusText.textContent = data.error || "Something went wrong.";
+          analyzeBtn.disabled = false;
+          return;
+        }
+        lastMetrics = data;
+        statusText.textContent = "Bestie stats unlocked ✅";
+        renderResults(data);
         generateCardBtn.disabled = false;
-        return;
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = "Error connecting to server.";
+      } finally {
+        analyzeBtn.disabled = false;
+      }
+    });
+
+    function renderResults(data) {
+      const persons = data.persons;
+      const scores = data.scores;
+      const raw = data.raw_metrics;
+
+      // Gauge
+      const overall = scores.overall || 0;
+      scoreValue.textContent = overall.toFixed(0);
+      const deg = (overall / 100) * 360;
+      gauge.style.setProperty("--gauge-deg", deg + "deg");
+
+      // Tagline
+      if (overall >= 90) {
+        tagline.textContent = "Friendship Score: " + overall.toFixed(0) + "% 🔥 We’re literally soul-mates.";
+      } else if (overall >= 75) {
+        tagline.textContent = "Elite bestie vibes detected. Protect this connection 💖";
+      } else if (overall >= 60) {
+        tagline.textContent = "Solid friendship—few more midnight rants and you’re S-tier.";
+      } else {
+        tagline.textContent = "Room to level up… send memes and trauma dump responsibly 😌";
       }
 
-      const b64 = data.image_base64;
-      cardImg.src = "data:image/png;base64," + b64;
-      cardPreview.style.display = "flex";
-      statusText.textContent = "Share card ready. Screenshot or download & flex on IG 🔥";
+      // Mini top metrics
+      balanceVal.textContent = scores.communication_balance.toFixed(0) + "%";
+      funVal.textContent = scores.fun_factor.toFixed(0) + "%";
+      posVal.textContent = scores.emotional_positivity.toFixed(0) + "%";
+      depthVal.textContent = scores.depth.toFixed(0) + "%";
 
-      downloadCardBtn.onclick = () => {
-        const link = document.createElement("a");
-        link.href = cardImg.src;
-        link.download = "friendship-score-card.png";
-        link.click();
-      };
-    } catch (err) {
-      console.error(err);
-      statusText.textContent = "Error generating card.";
-    } finally {
-      generateCardBtn.disabled = false;
+      balanceHint.textContent = raw.balance_score > 0.8 ? "Beautifully balanced convo energy." : "One of you chats more 👀";
+      funHint.textContent = raw.fun_score > 0.7 ? "This chat is pure chaos and laughter 😂" : "Could use a few more memes tbh.";
+      posHint.textContent = raw.positivity_score > 0.6 ? "Mostly positive vibes, love that for you." : "Some spicy moments, but it’s fine.";
+      depthHint.textContent = raw.depth_score > 0.6 ? "Deep convos + late-night oversharing unlocked." : "More core-memory chats needed.";
+
+      // Names
+      nameA.textContent = "Person A: " + persons.a;
+      nameB.textContent = "Person B: " + persons.b;
+
+      // Messages & reply
+      const counts = raw.message_count || {};
+      const totalMsg = raw.total_messages || (counts[persons.a] || 0) + (counts[persons.b] || 0);
+      msgCountVal.textContent = totalMsg;
+      const whoMore = raw.who_texts_more;
+      if (whoMore === persons.a) {
+        msgHint.textContent = persons.a + " carries more of the conversation.";
+      } else if (whoMore === persons.b) {
+        msgHint.textContent = persons.b + " carries more of the conversation.";
+      } else {
+        msgHint.textContent = "Texting load is pretty balanced.";
+      }
+
+      const avgReply = raw.avg_reply_seconds || {};
+      const arA = (avgReply[persons.a] || 0) / 60;
+      const arB = (avgReply[persons.b] || 0) / 60;
+      const faster = raw.fastest_replier;
+      replyVal.textContent = (arA && arB) ? (Math.min(arA, arB)).toFixed(1) + " min" : "--";
+      if (faster) {
+        replyHint.textContent = faster + " replies faster, not even giving you time to overthink 😭";
+      } else {
+        replyHint.textContent = "Reply times are kind of chaotic but it works somehow.";
+      }
+
+      // Emoji & laughs
+      emojiVal.textContent = raw.emoji_count + " + " + raw.laugh_count;
+      emojiHint.textContent = "Emoji density: " + raw.emoji_density.toFixed(2) + " / msg, laughs: " + raw.laugh_density.toFixed(2) + " / msg";
+
+      // Late night
+      const lateRatio = raw.late_night_ratio || 0;
+      lateVal.textContent = (lateRatio * 100).toFixed(0) + "%";
+      lateHint.textContent = lateRatio > 0.3 ? "Your midnight convo energy is unmatched 🌙" : "More 2am oversharing could be iconic.";
+
+      // Special moments
+      emotionalMoment.textContent = data.special_moments.most_emotional || "--";
+      funnyMoment.textContent = data.special_moments.most_funny || "--";
+
+      // Insights
+      insightsList.innerHTML = "";
+      (data.insights || []).forEach(text => {
+        const li = document.createElement("div");
+        li.className = "insight-item";
+        li.textContent = text;
+        insightsList.appendChild(li);
+      });
     }
-  });
-</script>
+
+    generateCardBtn.addEventListener("click", async () => {
+      if (!lastMetrics) return;
+
+      const raw = lastMetrics.raw_metrics;
+      const scores = lastMetrics.scores;
+      const persons = lastMetrics.persons;
+
+      statusText.textContent = "Cooking up your aesthetic share card 🔮";
+      generateCardBtn.disabled = true;
+
+      const payload = {
+        person_a: persons.a,
+        person_b: persons.b,
+        overall_score: (scores.overall || 0) / 100,
+        balance_score: (scores.communication_balance || 0) / 100,
+        fun_score: (scores.fun_factor || 0) / 100,
+        positivity_score: (scores.emotional_positivity || 0) / 100,
+        depth_score: (scores.depth || 0) / 100
+      };
+
+      try {
+        const res = await fetch(API_BASE + "/generate_card", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          statusText.textContent = data.error || "Failed to generate card.";
+          generateCardBtn.disabled = false;
+          return;
+        }
+
+        const b64 = data.image_base64;
+        cardImg.src = "data:image/png;base64," + b64;
+        cardPreview.style.display = "flex";
+        statusText.textContent = "Share card ready. Screenshot or download & flex on IG 🔥";
+
+        downloadCardBtn.onclick = () => {
+          const link = document.createElement("a");
+          link.href = cardImg.src;
+          link.download = "friendship-score-card.png";
+          link.click();
+        };
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = "Error generating card.";
+      } finally {
+        generateCardBtn.disabled = false;
+      }
+    });
+  </script>
 
 </body>
+
 </html>
